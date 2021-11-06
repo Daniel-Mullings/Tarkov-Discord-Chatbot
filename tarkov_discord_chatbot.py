@@ -51,4 +51,4 @@ async def stats(message):
   else:
     await message.channel.send("stats")
   
-client.run(os.environ['btocode'])
+client.run('ODk5NDQ2MTUxNzM5MjE1OTMy.YWy4gQ.PI_BS8TljX4jD8Hb-DToge-1nA8')
