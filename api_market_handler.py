@@ -40,6 +40,21 @@ def GetWeaponPrice(weaponName):
                 return weaponItem["avg24hPrice"]
     return "ERROR! ---Price not found---"
 
+def GetAmmoName(userMessage):
+    for ammoItem in fleaMarketData:
+        if (ammoItem["tags"][0] == "Ammo"):
+            if (ammoItem["shortName"].replace("-", "").replace(" ", "").lower() in userMessage.replace("-", "").replace(" ", "").lower()):
+                return ammoItem["shortName"]
+    return "ERROR! ---Ammo name not present---"
+def GetAmmoPrice(ammoName):
+    RefreshFleaMarketData()
+    for ammoItem in fleaMarketData:
+        if (ammoItem["tags"][0] == "Ammo"):
+            if (ammoName == ammoItem["shortName"]):
+                return ammoItem["avg24hPrice"]
+    return "ERROR! ---Price not found---"
+
+
 def TestFunction():
     userMessage = "cost of the mp133"
     if (WeaponNamePresent(userMessage)):
@@ -47,4 +62,5 @@ def TestFunction():
     else:
         print("Shit")
 
-TestFunction()
+#TestFunction()
+print(GetAmmoPrice(GetAmmoName("how much is m855")))
