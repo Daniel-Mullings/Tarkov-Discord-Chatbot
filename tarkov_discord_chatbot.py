@@ -1,7 +1,7 @@
 import os
 import discord
 import api_market_handler
-#test
+
 client = discord.Client()
 def word_checker(message):
     keywords = ["price", "info", "stats"]
