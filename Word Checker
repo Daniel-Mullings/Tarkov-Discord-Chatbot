@@ -1,0 +1,23 @@
+def wordcheck(message):
+    procedures = ["price", "info", "stats"]
+
+
+    for word in procedures:
+        if word in message:
+            return word
+    return "no procedure"
+
+def price():
+    print("hellooooooo")
+
+def info():
+    print("cheese")
+
+
+message = "hello friend"
+procedure = wordcheck(message)
+
+if procedure == "no procedure":
+    print("nothing to do")
+else:
+    eval(procedure + "()")
