@@ -1,4 +1,4 @@
-import json #test
+import json
 from urllib.request import urlopen
 
 api_key = "x-api-key=9w3MIVAGdu84n6Db"
@@ -44,7 +44,7 @@ def AmmoNamePresent(userMessage):
         if (ammoItem["tags"][0] == "Ammo"):
             if (ammoItem["shortName"].replace("-", "").replace(" ", "").lower() in userMessage.replace("-", "").replace(" ", "").lower()):
                 return True
-        return False
+    return False
 def GetAmmoName(userMessage):
     for ammoItem in fleaMarketData:
         if (ammoItem["tags"][0] == "Ammo"):
@@ -58,7 +58,6 @@ def GetAmmoPrice(ammoName):
             if (ammoName == ammoItem["shortName"]):
                 return ammoItem["avg24hPrice"]
     return "ERROR! ---Price not found---"
-
 
 def TestFunction():
     userMessage = "cost of the mp133"
