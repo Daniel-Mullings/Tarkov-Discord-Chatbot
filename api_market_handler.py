@@ -25,7 +25,6 @@ def WeaponNamePresent(userMessage):
             if (weaponItem["shortName"].replace("-", "").replace(" ", "").lower() in userMessage.replace("-", "").replace(" ", "").lower()):
                 return True
     return False
-
 def GetWeaponName(userMessage):
     for weaponItem in fleaMarketData:
         if (weaponItem["tags"][0] == "Weapon"):
@@ -40,6 +39,12 @@ def GetWeaponPrice(weaponName):
                 return weaponItem["avg24hPrice"]
     return "ERROR! ---Price not found---"
 
+def AmmoNamePresent(userMessage):
+    for ammoItem in fleaMarketData:
+        if (ammoItem["tags"][0] == "Ammo"):
+            if (ammoItem["shortName"].replace("-", "").replace(" ", "").lower() in userMessage.replace("-", "").replace(" ", "").lower()):
+                return True
+        return False
 def GetAmmoName(userMessage):
     for ammoItem in fleaMarketData:
         if (ammoItem["tags"][0] == "Ammo"):
@@ -61,6 +66,3 @@ def TestFunction():
         print("The " + GetWeaponName(userMessage) + " costs " + str(GetWeaponPrice(GetWeaponName(userMessage))) + " Rubbles")
     else:
         print("Shit")
-
-#TestFunction()
-print(GetAmmoPrice(GetAmmoName("how much is m855")))
