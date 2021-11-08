@@ -5,7 +5,7 @@ from datetime import datetime
 
 client = discord.Client()
 def word_checker(message):
-    keywords = ["price", "info", "stats"]
+    keywords = ["price", "cost", "worth", "value", "info", "information", "details", "stats", "statistics"]
     for word in keywords:
         if word in message.content:
             return word
@@ -51,5 +51,42 @@ async def stats(message):
         return
     else:
         await message.channel.send("stats")
+
+async def cost(message):
+    if message.author == client.user:
+        return
+    else:
+        await price(message)
+
+async def worth(message):
+    if message.author == client.user:
+        return
+    else:
+        await price(message)
+
+async def value(message):
+    if message.author == client.user:
+        return
+    else:
+        await price(message)
+
+async def information(message):
+    if message.author == client.user:
+        return
+    else:
+        await info(message)
  
+async def details(message):
+    if message.author == client.user:
+        return
+    else:
+        await info(message)
+
+async def statistics(message):
+    if message.author == client.user:
+        return
+    else:
+        await stats(message)
+
+
 client.run('ODk5NDQ2MTUxNzM5MjE1OTMy.YWy4gQ.PI_BS8TljX4jD8Hb-DToge-1nA8')
