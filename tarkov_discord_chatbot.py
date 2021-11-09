@@ -32,10 +32,10 @@ async def price(message):
         return
     else:
         if api_market_handler.isWeaponNamePresent(message.content):
-            response = "The " + api_market_handler.getWeaponName(str(message.content)) + " is worth " + str(api_market_handler.getWeaponPrice(api_market_handler.getWeaponName(str(message.content)))) + " Rubles"
+            response = "The " + api_market_handler.getWeaponName(str(message.content)) + " costs " + str(api_market_handler.getWeaponTraderPrice(api_market_handler.getWeaponName(str(message.content))))
             await message.channel.send(response)
         elif api_market_handler.isAmmoNamePresent(message.content):
-            response = "The " + api_market_handler.getAmmoName(str(message.content)) + " ammo type is worth " + str(api_market_handler.getAmmoPrice(api_market_handler.getAmmoName(str(message.content)))) + " Rubles"
+            response = "The " + api_market_handler.getAmmoName(str(message.content)) + " ammo type is worth " + str(api_market_handler.getAmmoTraderPrice(api_market_handler.getAmmoName(str(message.content))))
             await message.channel.send(response)
         else:
             await message.channel.send("ERROR")

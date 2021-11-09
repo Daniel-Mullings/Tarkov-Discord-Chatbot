@@ -34,10 +34,15 @@ def getWeaponName(p_userMessage):
 def getAmmoName(p_userMessage):
     return ItemName(p_userMessage, "Ammo")
 
-def getWeaponPrice(p_weaponName):
-    return ItemPrice(p_weaponName, "Weapon")
-def getAmmoPrice(p_ammoName):
-    return ItemPrice(p_ammoName, "Ammo")
+def getWeaponTraderPrice(p_weaponName):
+    return ItemPrice(p_weaponName, "Weapon", "tMarket")
+def getAmmoTraderPrice(p_ammoName):
+    return ItemPrice(p_ammoName, "Ammo", "tMarket")
+
+def getWeaponFleaMarketPrice(p_weaponName):
+    return ItemPrice(p_weaponName, "Weapon", "fMarket")
+def getAmmoFleaMarketPrice(p_ammoName):
+    return ItemPrice(p_ammoName, "Ammo", "fMarket")
 
 
 
@@ -55,12 +60,18 @@ def ItemName(p_userMessage, p_itemType):
             if (marketItem["shortName"].replace("-", "").replace(" ", "").lower() in p_userMessage.replace("-", "").replace(" ", "").lower()):
                 return marketItem["shortName"]
     return "ERROR! ---Item name not present---"
-def ItemPrice(p_itemName, p_itemType):
+def ItemPrice(p_itemName, p_itemType, p_priceType):
     RefreshFleaMarketData()
     for marketItem in fleaMarketData:
         if (marketItem["tags"][0] == p_itemType):
             if (p_itemName == marketItem["shortName"]):
-                return marketItem["avg24hPrice"]
+                if (p_priceType == "tMarket"):
+                    return marketItem["traderPriceCur"] + str(marketItem["traderPrice"])
+                elif (p_priceType == "fMarket"):
+                    return marketItem["traderPriceCur"] + str(marketItem["avg24hPrice"])
+
+                else:
+                    return "ERROR! ---Item price type not specified---"
     return "ERROR! ---Item price not found---"
 
 
