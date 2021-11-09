@@ -44,6 +44,9 @@ def getWeaponFleaMarketPrice(p_weaponName):
 def getAmmoFleaMarketPrice(p_ammoName):
     return ItemPrice(p_ammoName, "Ammo", "fMarket")
 
+def getItemTrader(p_itemName):
+    return ItemTrader(p_itemName)
+
 
 
 def ItemNamePresent(p_userMessage, p_itemType):
@@ -73,6 +76,12 @@ def ItemPrice(p_itemName, p_itemType, p_priceType):
                 else:
                     return "ERROR! ---Item price type not specified---"
     return "ERROR! ---Item price not found---"
+def ItemTrader(p_itemName):
+    for marketItem in fleaMarketData:
+        if (marketItem["shortName"] == p_itemName):
+            return marketItem["traderName"]
+    return "ERROR! ---Item not sold by any trader"
+
 
 
 
