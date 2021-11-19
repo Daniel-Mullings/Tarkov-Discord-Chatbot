@@ -1,5 +1,4 @@
 import json
-import winsound
 from urllib.request import urlopen
 
 api_key = "x-api-key=9w3MIVAGdu84n6Db"
@@ -13,13 +12,8 @@ if (release_state):
     fleaMarketData = json.load(apiJsonObj)
 else:
     print("Release State = " + str(release_state) + "!, API Not Connected, Market Data Outdated")
-    for i in range (0 , 3):
-        winsound.Beep(750, 250)
-        i += 1
     tempFleaMarketData_Json_File = open("tempFleaMarketData.json", encoding="utf-8")
     fleaMarketData = json.load(tempFleaMarketData_Json_File)
-
-
 
 def RefreshFleaMarketData():
     if(release_state):
@@ -27,76 +21,34 @@ def RefreshFleaMarketData():
         fleaMarketData = json.load(json_obj)
 
 
-
-def isWeaponNamePresent(p_userMessage):
-    return ItemNamePresent(p_userMessage, "Weapon")
-def isAmmoNamePresent(p_userMessage):
-    return ItemNamePresent(p_userMessage, "Ammo")
-def isArmourNamePresent(p_userMessage):
-    return ItemNamePresent(p_userMessage, "Armor_vests")
-
-def getWeaponName(p_userMessage):
-    return ItemName(p_userMessage, "Weapon")
-def getAmmoName(p_userMessage):
-    return ItemName(p_userMessage, "Ammo")
-def getArmourName(p_userMessage):
-    return ItemName(p_userMessage, "Armor_vests")
-
-def getWeaponTraderPrice(p_weaponName):
-    return ItemPrice(p_weaponName, "Weapon", "tMarket")
-def getAmmoTraderPrice(p_ammoName):
-    return ItemPrice(p_ammoName, "Ammo", "tMarket")
-
-def getWeaponFleaMarketPrice(p_weaponName):
-    return ItemPrice(p_weaponName, "Weapon", "fMarket")
-def getAmmoFleaMarketPrice(p_ammoName):
-    return ItemPrice(p_ammoName, "Ammo", "fMarket")
-
-def getItemTrader(p_itemName):
-    return ItemTrader(p_itemName)
-
-
-
-def ItemNamePresent(p_userMessage, p_itemType):
-    for marketItem in fleaMarketData:
-        if (p_itemType in marketItem["tags"]):
-            if (marketItem["shortName"].replace("-", "").replace(" ", "").lower() in p_userMessage.replace("-", "").replace(" ", "").lower()):
-                return True
+def itemMarket_In_userMessage(p_marketItemShortName, p_userMessage):
+    if (p_marketItemShortName.replace("-", "").replace(" ", "").lower() in p_userMessage.replace("-", "").replace(" ", "").lower()):
+        return True
     return False
-def ItemName(p_userMessage, p_itemType):
+
+def isItemNamePresent(p_userMessage):
     for marketItem in fleaMarketData:
-        if (p_userMessage == "debug_PrintAll"):
-            if ("Armor_vests" in marketItem["tags"]):
-                print(str(marketItem["tags"]) + " --- " + str(marketItem["shortName"]))
-        if (p_itemType in marketItem["tags"]):
-            if (marketItem["shortName"].replace("-", "").replace(" ", "").lower() in p_userMessage.replace("-", "").replace(" ", "").lower()):
-                return marketItem["shortName"]
+        if (itemMarket_In_userMessage(marketItem["shortName"], p_userMessage)):
+            return True
+    return False
+def getItemName(p_userMessage):
+    for marketItem in fleaMarketData:
+        if (itemMarket_In_userMessage(marketItem["shortName"], p_userMessage)):
+            return marketItem["shortName"]
     return "ERROR! ---Item name not present---"
-def ItemPrice(p_itemName, p_itemType, p_priceType):
+def getItemPrice(p_itemName, p_marketType):
     RefreshFleaMarketData()
     for marketItem in fleaMarketData:
-        if (p_itemType in marketItem["tags"][0]):
-            if (p_itemName == marketItem["shortName"]):
-                if (p_priceType == "tMarket"):
-                    return marketItem["traderPriceCur"] + str(marketItem["traderPrice"])
-                elif (p_priceType == "fMarket"):
-                    return marketItem["traderPriceCur"] + str(marketItem["avg24hPrice"])
-
-                else:
-                    return "ERROR! ---Item price type not specified---"
+        if (p_itemName == marketItem["shortName"]):
+            if (p_marketType == "tMarket"):
+                return marketItem["traderPriceCur"] + str(marketItem["traderPrice"])
+            elif (p_marketType == "fMarket"):
+                return marketItem["traderPriceCur"] + str(marketItem["avg24hPrice"])
+            else:
+                return "ERROR! ---Item price type not specified---"
     return "ERROR! ---Item price not found---"
-def ItemTrader(p_itemName):
+def getItemTraderName(p_itemName):
     for marketItem in fleaMarketData:
         if (marketItem["shortName"] == p_itemName):
             return marketItem["traderName"]
-    return "ERROR! ---Item not sold by any trader"
-
-
-
-
-def printAllItemName():
-    if (not release_state):
-        ItemName("debug_PrintAll", " ")
-
-printAllItemName()
-print(getArmourName(isArmourNamePresent("3 m")))
+    return "ERROR! ---Item not sold by any trader" 
