@@ -35,18 +35,16 @@ async def on_message(message):
         await message.channel.send("do nothing")
     else:
         await eval(procedure + "(message)")
+        
 async def price(message):
     if message.author == client.user:
         return
     else:
-        if api_market_handler.isWeaponNamePresent(message.content):
-            response = "The " + api_market_handler.getWeaponName(str(message.content)) + " costs " + str(api_market_handler.getWeaponTraderPrice(api_market_handler.getWeaponName(str(message.content))))
-            await message.channel.send(response)
-        elif api_market_handler.isAmmoNamePresent(message.content):
-            response = "The " + api_market_handler.getAmmoName(str(message.content)) + " ammo type is worth " + str(api_market_handler.getAmmoTraderPrice(api_market_handler.getAmmoName(str(message.content))))
+        if api_market_handler.isItemNamePresent(message):
+            response = "The " + api_market_handler.getItemName(str(message.content)) + " costs " + str(api_market_handler.getWeaponTraderPrice(api_market_handler.getItemName(str(message.content))))
             await message.channel.send(response)
         else:
-            await message.channel.send("ERROR")
+            await message.channel.send(api_market_handler.isItemNamePresent)
 
 async def info(message):
     if message.author == client.user:
