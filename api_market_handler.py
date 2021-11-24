@@ -46,13 +46,13 @@ def isItemNamePresent(p_userMessage):
     for marketItem in marketData:
         if (itemMarket_In_userMessage(marketItem["shortName"], p_userMessage)):
             return True
-    return False #---Item name not present---
+    return "ERROR! ---Item Name not Present---" 
 
 def getItemName(p_userMessage):
     for marketItem in marketData:
         if (itemMarket_In_userMessage(marketItem["shortName"], p_userMessage)):
             return marketItem["shortName"]
-    return False #---Item name not present---"
+    return "ERROR! ---Item Name not Present---"
 
 def getItemPrice(p_itemName, p_marketType):
     RefreshmarketData()
@@ -64,10 +64,10 @@ def getItemPrice(p_itemName, p_marketType):
                 return marketItem["traderPriceCur"] + str(marketItem["avg24hPrice"])
             else:
                 return "ERROR! ---Item market type not specified---"
-    return False #---Item price not found---"
+    return "ERROR! ---Item Price not Found---"
 
 def getItemTraderName(p_itemName):
     for marketItem in marketData:
         if (marketItem["shortName"] == p_itemName):
             return marketItem["traderName"]
-    return False #---Item not sold by any trader" 
+    return "ERROR! ---Item Trader Name not Found---"
