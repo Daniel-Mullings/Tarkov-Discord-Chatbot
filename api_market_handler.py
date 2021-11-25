@@ -79,18 +79,22 @@ def isItemNamePresent(p_userMessage):
     for marketItem in marketData:
         if (marketItem_In_userMessage(marketItem["shortName"], p_userMessage)):
             return True
-    return "ERROR! ---Item Name not Present---" 
+
+    #ITEM NAME NOT PRESENT
+    return False
 
 #TAKES A USERS MESSAGE AS TYPE str
-#RETURNS ITEM NAME (AS IT APPEARS IN API DATA) AS TYPE str
+#RETURNS ITEM NAME (AS IT APPEARS IN API DATA) AS TYPE str OR bool = False
 def getItemName(p_userMessage):
     for marketItem in marketData:
         if (marketItem_In_userMessage(marketItem["shortName"], p_userMessage)):
             return marketItem["shortName"]
-    return "ERROR! ---Item Name not Present---"
+    
+    #ITEM NAME NOT PRESENT
+    return False
 
 #TAKES ITEM NAME AS TYPE str AND MARKET TYPE("tMarket" OR "fMarket") AS TYPE str, 
-#RETURNS CORRESPONDING ITEM PRICE (WITH CURRENCY SYMBOL PREFIXED) AS TYPE str
+#RETURNS CORRESPONDING ITEM PRICE (WITH CURRENCY SYMBOL PREFIXED) AS TYPE str OR bool = False
 def getItemPrice(p_itemName, p_marketType):
     for marketItem in marketData:
         if (p_itemName == marketItem["shortName"]):
@@ -99,13 +103,18 @@ def getItemPrice(p_itemName, p_marketType):
             elif (p_marketType == "fMarket"):
                 return marketItem["traderPriceCur"] + str(marketItem["avg24hPrice"])
             else:
-                return "ERROR! ---Item market type not specified/incorrect---"
-    return "ERROR! ---Item Price not Found---"
+                #MISSING/INCORRECT MARKET TYPE
+                return False
+    
+    #ITEM PRICE NOT FOUND
+    return False
 
 #TAKES ITEM NAME AS TYPE str, 
-#RETURNS CORRESPONDING ITEM TRADER NAME AS TYPE str
+#RETURNS CORRESPONDING ITEM TRADER NAME AS TYPE str OR bool = False
 def getItemTraderName(p_itemName):
     for marketItem in marketData:
         if (marketItem["shortName"] == p_itemName):
             return marketItem["traderName"]
-    return "ERROR! ---Item Trader Name not Found---"
+    
+    #ITEM NAME NOT FOUND
+    return False
