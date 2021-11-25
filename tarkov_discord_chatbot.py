@@ -1,6 +1,7 @@
-import os
+import sqlite3
 import discord
 from discord import message
+from Ammo import SelectCell
 import api_market_handler
 from datetime import datetime
 
@@ -19,6 +20,32 @@ def word_checker(message):
                 return key
     return "no procedure"
   
+def ammonamechecker(message):
+    ammonames = getammolist()
+    for word in message.content.split():
+        for ammo in ammonames:
+            if word in ammo:
+                return ammo
+
+    return "Name"
+
+def getammolist():
+    connection = sqlite3.connect("ammoTable.db")
+    cursor = connection.cursor()
+    filedata = cursor.execute("SELECT Name FROM Ammo ORDER BY Name")
+    content = filedata.fetchall()
+    connection.commit()
+    connection.close()
+    return content
+
+def ammodata(message):
+    values = ["Damage", "Penetration", "ArmourDamageChance", "AccuracyChange", "RecoilChange", "FragmentChance", "RicochetChance", "LightBleedChance", "HeavyBleedChance", "Velocity", "SpecialEffects"]
+    for word in message.content.split():
+        for value in values:
+            if word in value:
+                return value
+    return "Name"
+
 
 @client.event
 async def on_ready():
@@ -50,7 +77,12 @@ async def info(message):
     if message.author == client.user:
         return
     else:
-        await message.channel.send("info")
+        connection = sqlite3.connect("ammoTable.db")
+        data = SelectCell("ammoTable.db", ammonamechecker(message), ammodata(message))
+        await message.channel.send(data)
+        connection.commit()
+        connection.close()
+    return
 
 async def stats(message):
     if message.author == client.user:
