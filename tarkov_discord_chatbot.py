@@ -9,25 +9,25 @@ client = discord.Client()
 def word_checker(message):
     keywords = {
         "price" :["price", "cost", "worth", "value",],
-        "info": ["info", "information", "details",],
+        "info": ["info", "information", "details", "Damage", "Penetration", "ArmourDamageChance", "AccuracyChange", "RecoilChange", "FragmentChance", "RicochetChance", "LightBleedChance", "HeavyBleedChance", "Velocity", "SpecialEffects"],
         "stats": ["stats", "statistics"]
     }
     keys = keywords.keys()
 
     for word in message.content.split():
         for key in keys:
-            if word in keywords.get(key) or word == key:
+            if str(word).lower() in str(keywords.get(key)).lower() or str(word).lower() == str(key).lower():
                 return key
     return "no procedure"
   
 def ammonamechecker(message):
     ammonames = getammolist()
-    for word in message.content.split():
+    for word in message.split():
         for ammo in ammonames:
-            if word in ammo:
+            if str(word).upper() in str(ammo).upper():
                 return ammo
 
-    return "Name"
+    return "no ammo"
 
 def getammolist():
     connection = sqlite3.connect("ammoTable.db")
@@ -39,10 +39,10 @@ def getammolist():
     return content
 
 def ammodata(message):
-    values = ["Damage", "Penetration", "ArmourDamageChance", "AccuracyChange", "RecoilChange", "FragmentChance", "RicochetChance", "LightBleedChance", "HeavyBleedChance", "Velocity", "SpecialEffects"]
-    for word in message.content.split():
-        for value in values:
-            if word in value:
+    valuesnames = ["Damage", "Penetration", "ArmourDamageChance", "AccuracyChange", "RecoilChange", "FragmentChance", "RicochetChance", "LightBleedChance", "HeavyBleedChance", "Velocity", "SpecialEffects"]
+    for word in message.split():
+        for value in valuesnames:
+            if str(word).lower() in str(value).lower():
                 return value
     return "Name"
 
@@ -50,7 +50,6 @@ def ammodata(message):
 @client.event
 async def on_ready():
     print("Logged in as {0.user}".format(client) + " @ " + datetime.now().strftime("%H:%M:%S"))
-
 
 @client.event
 async def on_message(message):
@@ -67,8 +66,8 @@ async def price(message):
     if message.author == client.user:
         return
     else:
-        if api_market_handler.isItemNamePresent(message):
-            response = "The " + api_market_handler.getItemName(str(message.content)) + " costs " + str(api_market_handler.getWeaponTraderPrice(api_market_handler.getItemName(str(message.content))))
+        if api_market_handler.isItemNamePresent(message.content):
+            response = "The " + api_market_handler.getItemName(str(message.content)) + " costs " + str(api_market_handler.getItemPrice(api_market_handler.getItemName(str(message.content)), "tMarket"))
             await message.channel.send(response)
         else:
             await message.channel.send(api_market_handler.isItemNamePresent)
@@ -77,11 +76,12 @@ async def info(message):
     if message.author == client.user:
         return
     else:
-        connection = sqlite3.connect("ammoTable.db")
-        data = SelectCell("ammoTable.db", ammonamechecker(message), ammodata(message))
-        await message.channel.send(data)
-        connection.commit()
-        connection.close()
+        ammoname = str(ammonamechecker(message.content)[0])
+        ammovalue = str(ammodata(message.content))
+        print(ammoname, ammovalue)
+        if ammoname != "no ammo":
+            data = SelectCell("ammoTable.db", ammovalue, ammoname)
+            await message.channel.send(data)
     return
 
 async def stats(message):

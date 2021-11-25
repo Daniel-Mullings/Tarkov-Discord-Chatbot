@@ -70,6 +70,7 @@ def SelectCell(filename, chosenCol, sortVal):
     cursor = connection.cursor()
     filedata = cursor.execute("SELECT " + chosenCol + " FROM Ammo WHERE Name = ('" + sortVal + "')")
     data = filedata.fetchall()[0][0]
+    
 
     #closes the connection to the file
     connection.commit()
@@ -191,8 +192,8 @@ for i in range(len(ammoTypes) - 1):
         #AddRow(filename, rowName, rowData)
 
 #debug - displays all the data in the database
-DisplayDatabase(filename)
+#DisplayDatabase(filename)
 #debug - displays the damage for a given ammo name
-#print(SelectCell(filename, "Damage", "12/70 RIP"))
+print(SelectCell(filename, "Damage", "12/70 RIP"))
 #debug - displays all the data in the Name column and orders it by the corresponding Damage
 #SelectColumn(filename, "Damage", "Damage")
