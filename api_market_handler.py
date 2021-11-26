@@ -47,7 +47,7 @@ def FetchOnlineMarketData():
         return FetchOfflineMarketData()
 
 #RETRIEVES MARKET DATA FROM SAVED JSON FILE
-#REUTRNS MARKET DATA AS PYTHON DICTIONARY
+#RETURNS MARKET DATA AS PYTHON DICTIONARY
 def FetchOfflineMarketData():
     print("Release State = " + str(release_state) + "!, API Not Connected, Market Data Outdated\n")
 
