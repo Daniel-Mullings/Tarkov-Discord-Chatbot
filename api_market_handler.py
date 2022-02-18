@@ -1,4 +1,4 @@
-#PYTHON STANDARD LIBRARY - https://docs.python.org/3/library/json.html - USED TO READ, WRITE JSON FILES STORKING MARKET DATA FROM API
+#PYTHON STANDARD LIBRARY - https://docs.python.org/3/library/json.html - USED TO READ, WRITE JSON FILES STORING MARKET DATA FROM API
 import json
 #URLLIB 3.9 - THIRD PARTY LIBRARY - https://github.com/urllib3/urllib3 - USED TO CATCH AND HANDLE HTTP ERRORS/EXCEPTIONS
 import urllib.error
